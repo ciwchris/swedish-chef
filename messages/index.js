@@ -22,40 +22,15 @@ bot.localePath(path.join(__dirname, './locale'));
 
 // Intercept trigger event (ActivityTypes.Trigger)
 bot.on('trigger', function (message) {
-    // handle message from trigger function
     var queuedMessage = message.value;
     var reply = new builder.Message()
         .address(queuedMessage.address)
-        .text(queuedMessage.address.conversation.id + ': This is coming from the trigger: ' + queuedMessage.text);
-        //.text('This is coming from the trigger: ' + queuedMessage.text);
+        .text(queuedMessage.text);
     bot.send(reply);
 });
 
 // Handle message from user
 bot.dialog('/', function (session) {
-    var queuedMessage = { address: session.message.address, text: session.message.text };
-    // add message to queue
-    session.sendTyping();
-    var queueSvc = azure.createQueueService(process.env.AzureWebJobsStorage);
-    queueSvc.createQueueIfNotExists('bot-queue', function(err, result, response){
-        if(!err){
-            // Add the message to the queue
-            var queueMessageBuffer = new Buffer(JSON.stringify(queuedMessage)).toString('base64');
-            queueSvc.createMessage('bot-queue', queueMessageBuffer, function(err, result, response){
-                if(!err){
-                    // Message inserted
-                    var address = queuedMessage.address;
-                    session.send(address.conversation.id + ' ' + address.channelId + ' ' + address.serviceUrl + ' ' + address.bot.id + ' ' + address.bot.name);
-                } else {
-                    // this should be a log for the dev, not a message to the user
-                    session.send('There was an error inserting your message into queue');
-                }
-            });
-        } else {
-            // this should be a log for the dev, not a message to the user
-            session.send('There was an error creating your queue');
-        }
-    });
 
 });
 
@@ -69,5 +44,4 @@ if (useEmulator) {
 } else {
     module.exports = { default: connector.listen() }
 }
-
 

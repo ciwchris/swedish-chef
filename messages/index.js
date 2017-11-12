@@ -25,8 +25,19 @@ bot.on('trigger', function (message) {
     var queuedMessage = message.value;
     var reply = new builder.Message()
         .address(queuedMessage.address)
-        .text('*' + queuedMessage.text + '*  \n ./giphy tacos');
+        .text('*' + queuedMessage.text + '*');
     bot.send(reply);
+
+    setTimeout(function() {
+        var image = new builder.AnimationCard(session)
+            .title('Microsoft Bot Framework')
+            .subtitle('Animation Card')
+            .image(builder.CardImage.create(session, 'https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png'))
+            .media([
+                { url: 'http://i.giphy.com/Ki55RUbOV5njy.gif' }
+            ]);
+        bot.send(image);
+    }, 1000);
 });
 
 // Handle message from user

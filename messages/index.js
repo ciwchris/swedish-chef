@@ -47,6 +47,12 @@ function sendMessage(queuedMessage, imageUrl) {
 
 // Handle message from user
 bot.dialog('/', function (session) {
+    if (/^@swedishchef id/.test(session.message.text)) {
+        var reply = new builder.Message()
+            .address(session.message.address)
+            .text(session.message.address.conversation.id + ' ' + session.message.address.bot.id);
+        bot.send(reply);
+    }
 });
 
 if (useEmulator) {

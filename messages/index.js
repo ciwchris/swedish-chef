@@ -25,7 +25,7 @@ bot.on('trigger', function (message) {
     var queuedMessage = message.value;
     var reply = new builder.Message()
         .address(queuedMessage.address)
-        .text(queuedMessage.text);
+        .text('*' + queuedMessage.text + '*  \n ./giphy tacos');
     bot.send(reply);
 });
 

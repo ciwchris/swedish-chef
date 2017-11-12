@@ -26,7 +26,8 @@ bot.on('trigger', function (message) {
     var queuedMessage = message.value;
     var reply = new builder.Message()
         .address(queuedMessage.address)
-        .text('This is coming from the trigger: ' + queuedMessage.text);
+        .text(queuedMessage.address.conversation.id + ': This is coming from the trigger: ' + queuedMessage.text);
+        //.text('This is coming from the trigger: ' + queuedMessage.text);
     bot.send(reply);
 });
 
@@ -43,7 +44,8 @@ bot.dialog('/', function (session) {
             queueSvc.createMessage('bot-queue', queueMessageBuffer, function(err, result, response){
                 if(!err){
                     // Message inserted
-                    session.send('Your message (\'' + session.message.text + '\') has been added to a queue, and it will be sent back to you via a Function');
+                    var address = queuedMessage.address;
+                    session.send(address.conversation.id + ' ' + address.channelId + ' ' + address.serviceUrl + ' ' + address.bot.id + ' ' + address.bot.name);
                 } else {
                     // this should be a log for the dev, not a message to the user
                     session.send('There was an error inserting your message into queue');

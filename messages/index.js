@@ -29,9 +29,10 @@ bot.on('trigger', function (message) {
     msg.attachmentLayout(builder.AttachmentLayout.carousel)
     msg.attachments([
         new builder.AnimationCard()
-            .title('*' + queuedMessage.text + '*')
-            .subtitle('Bork bork bork!')
-            .media([ { url: 'https://media0.giphy.com/media/demgpwJ6rs2DS%2Fgiphy-downsized.gif' } ])
+            .title('Bork bork bork!')
+            .media([
+                { url: 'https://media2.giphy.com/media/3JgtnXdRhSflK%2Fgiphy-downsized.gif' },
+                { url: 'https://media0.giphy.com/media/demgpwJ6rs2DS%2Fgiphy-downsized.gif' } ])
     ]);
 
     bot.send(msg);

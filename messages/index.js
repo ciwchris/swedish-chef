@@ -23,21 +23,18 @@ bot.localePath(path.join(__dirname, './locale'));
 // Intercept trigger event (ActivityTypes.Trigger)
 bot.on('trigger', function (message) {
     var queuedMessage = message.value;
-    var reply = new builder.Message()
-        .address(queuedMessage.address)
-        .text('*' + queuedMessage.text + '*');
-    bot.send(reply);
 
-    setTimeout(function() {
-        var image = new builder.AnimationCard(session)
-            .title('Microsoft Bot Framework')
-            .subtitle('Animation Card')
-            .image(builder.CardImage.create(session, 'https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png'))
-            .media([
-                { url: 'http://i.giphy.com/Ki55RUbOV5njy.gif' }
-            ]);
-        bot.send(image);
-    }, 1000);
+    var msg = new builder.Message()
+        .address(queuedMessage.address)
+    msg.attachmentLayout(builder.AttachmentLayout.carousel)
+    msg.attachments([
+        new builder.AnimationCard()
+            .title('*' + queuedMessage.text + '*')
+            .subtitle('Bork bork bork!')
+            .media([ { url: 'https://media0.giphy.com/media/demgpwJ6rs2DS%2Fgiphy-downsized.gif' } ])
+    ]);
+
+    bot.send(msg);
 });
 
 // Handle message from user

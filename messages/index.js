@@ -24,21 +24,22 @@ bot.localePath(path.join(__dirname, './locale'));
 
 // Intercept trigger event (ActivityTypes.Trigger)
 bot.on('trigger', function (message) {
-    got('https://api.giphy.com/v1/gifs/random?tag=' + message.value.text + '&rating=g&api_key=' + giphyApiKey, { json: true }).then(response => {
-      sendMessage(message.value, response.body.data.fixed_height_downsampled_url)
+    var [tag, messageText] = message.value.text.split(':');
+    got('https://api.giphy.com/v1/gifs/random?tag=' + encodeURIComponent(tag) + '&rating=g&api_key=' + giphyApiKey, { json: true }).then(response => {
+      sendMessage(message.value, messageText, response.body.data.fixed_height_downsampled_url)
     }).catch(error => {
-      sendMessage(message.value, 'https://media0.giphy.com/media/demgpwJ6rs2DS%2Fgiphy-downsized.gif')
+      sendMessage(message.value, messageText, 'https://media0.giphy.com/media/demgpwJ6rs2DS%2Fgiphy-downsized.gif')
     });
 });
 
-function sendMessage(queuedMessage, imageUrl) {
+function sendMessage(queuedMessage, messageText, imageUrl) {
     var msg = new builder.Message()
-        .address(queuedMessage.address);
+        .address(queuedMessage.address)
+        .text("This week's dinner is " + messageText);
     msg.attachmentLayout(builder.AttachmentLayout.carousel)
     msg.attachments([
         new builder.AnimationCard()
-            .title("This week's dinner is " + queuedMessage.text)
-            .subtitle('Bork bork bork!')
+            .title('Bork bork bork!')
             .media([ { url: imageUrl } ])
     ]);
 

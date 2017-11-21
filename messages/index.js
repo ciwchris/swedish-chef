@@ -53,6 +53,15 @@ bot.dialog('/', function (session) {
             .address(session.message.address)
             .text(session.message.address.conversation.id + ' ' + session.message.address.bot.id);
         bot.send(reply);
+    } else if (/^@swedishchef /.test(session.message.text)) {
+        var reply = new builder.Message()
+            .address(session.message.address);
+        replp.attachmentLayout(builder.AttachmentLayout.carousel)
+        reply.attachments([
+            new builder.AnimationCard()
+                .title('Bork bork bork!')
+                .media([ { url: 'https://media0.giphy.com/media/demgpwJ6rs2DS%2Fgiphy-downsized.gif' } ])
+        ]);
     }
 });
 

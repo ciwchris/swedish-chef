@@ -56,7 +56,7 @@ bot.dialog('/', function (session) {
     } else if (/^@swedishchef /.test(session.message.text)) {
         var reply = new builder.Message()
             .address(session.message.address);
-        replp.attachmentLayout(builder.AttachmentLayout.carousel)
+        reply.attachmentLayout(builder.AttachmentLayout.carousel)
         reply.attachments([
             new builder.AnimationCard()
                 .title('Bork bork bork!')
